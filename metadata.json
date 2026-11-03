@@ -1,0 +1,6 @@
+{
+  "name": "DINO PLUS – Premium Nekretnine Bosna i Hercegovina",
+  "description": "Vodeća marketplace platforma za oglašavanje, pretragu, prodaju i iznajmljivanje nekretnina u Bosni i Hercegovini. Pronađite prostor za svoje snove.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
