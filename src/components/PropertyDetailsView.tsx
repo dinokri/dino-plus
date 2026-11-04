@@ -24,6 +24,7 @@ import {
 import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 import { Property } from '../types/property';
 import { formatPriceKM, getPropertyTypeLabel } from '../utils/filterProperties';
+import { HERO_IMAGE } from '../data/properties';
 import { PropertyCard } from './PropertyCard';
 
 interface PropertyDetailsViewProps {
@@ -178,6 +179,9 @@ export const PropertyDetailsView: React.FC<PropertyDetailsViewProps> = ({
             <img
               src={images[selectedImageIndex]}
               alt={`${property.title} - fotografija ${selectedImageIndex + 1}`}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = HERO_IMAGE;
+              }}
               className="w-full h-full object-cover group-hover:scale-102 transition-transform duration-300"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -197,7 +201,14 @@ export const PropertyDetailsView: React.FC<PropertyDetailsViewProps> = ({
                     selectedImageIndex === idx ? 'border-[#C5A46D] scale-105' : 'border-transparent opacity-60 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <img
+                    src={img}
+                    alt=""
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = HERO_IMAGE;
+                    }}
+                    className="w-full h-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -633,6 +644,9 @@ export const PropertyDetailsView: React.FC<PropertyDetailsViewProps> = ({
             <img
               src={images[selectedImageIndex]}
               alt=""
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = HERO_IMAGE;
+              }}
               className="max-h-[80vh] max-w-full object-contain rounded-lg shadow-2xl"
             />
 
@@ -657,7 +671,14 @@ export const PropertyDetailsView: React.FC<PropertyDetailsViewProps> = ({
                   selectedImageIndex === i ? 'border-[#C5A46D] scale-105' : 'border-transparent opacity-50 hover:opacity-100'
                 }`}
               >
-                <img src={img} alt="" className="w-full h-full object-cover" />
+                <img
+                  src={img}
+                  alt=""
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = HERO_IMAGE;
+                  }}
+                  className="w-full h-full object-cover"
+                />
               </button>
             ))}
           </div>

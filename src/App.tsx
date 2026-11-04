@@ -76,22 +76,50 @@ export default function App() {
       return;
     }
 
+    if (view === 'prodaja') {
+      setFilters({
+        ...initialFilterState,
+        offerType: 'prodaja',
+        ...(params || {}),
+      });
+      setCurrentView('nekretnine');
+      return;
+    }
+
+    if (view === 'iznajmljivanje') {
+      setFilters({
+        ...initialFilterState,
+        offerType: 'iznajmljivanje',
+        ...(params || {}),
+      });
+      setCurrentView('nekretnine');
+      return;
+    }
+
     if (view === 'nekretnine') {
-      if (params) {
+      if (params?.offerType) {
+        setFilters({
+          ...initialFilterState,
+          ...params,
+        });
+      } else if (params) {
         setFilters((prev) => ({
           ...prev,
           ...params,
         }));
+      } else {
+        // Reset to all properties when clicking "Nekretnine"
+        setFilters(initialFilterState);
       }
       setCurrentView('nekretnine');
       return;
     }
 
     if (params?.offerType) {
-      setFilters((prev) => ({
-        ...prev,
+      setFilters({
+        ...initialFilterState,
         offerType: params.offerType as OfferType,
-      }));
+      });
       setCurrentView('nekretnine');
       return;
     }
@@ -106,10 +134,10 @@ export default function App() {
   };
 
   const handleSearchFromHero = (newFilters: Partial<FilterState>) => {
-    setFilters((prev) => ({
-      ...prev,
+    setFilters({
+      ...initialFilterState,
       ...newFilters,
-    }));
+    });
     setCurrentView('nekretnine');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -146,6 +174,7 @@ export default function App() {
       {/* Top Navbar */}
       <Navbar
         currentView={currentView}
+        currentOfferType={filters.offerType}
         onNavigate={handleNavigate}
         favoritesCount={favorites.length}
         onOpenPublishModal={() => setPublishModalOpen(true)}

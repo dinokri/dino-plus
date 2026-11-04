@@ -115,16 +115,22 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
           </motion.div>
         </motion.button>
 
-        {/* Price Tag Overlay at Bottom of Image */}
-        <div className="absolute bottom-3 left-3 z-10 text-white">
-          <div className="text-xl sm:text-2xl font-extrabold tracking-tight tabular-nums drop-shadow-md">
-            {formatPriceKM(property.price, property.priceSuffix)}
+        {/* Bottom Bar on Image: Price on Left, Property Type on Right */}
+        <div className="absolute bottom-3 left-3 right-3 z-10 flex items-end justify-between gap-2 pointer-events-none">
+          <div className="text-white">
+            <div className="text-lg sm:text-xl font-extrabold tracking-tight tabular-nums drop-shadow-md flex items-baseline gap-1">
+              <span>{property.price.toLocaleString('bs-BA')} KM</span>
+              {property.priceSuffix && (
+                <span className="text-xs font-semibold text-slate-200/90 tracking-normal">
+                  {property.priceSuffix}
+                </span>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Property Type Badge at Bottom Right */}
-        <div className="absolute bottom-3 right-3 z-10 text-white/90 text-xs font-semibold bg-black/40 backdrop-blur-xs px-2.5 py-1 rounded-md">
-          {getPropertyTypeLabel(property.propertyType)}
+          <div className="text-white/95 text-[11px] font-semibold bg-black/55 backdrop-blur-xs px-2.5 py-1 rounded-md shrink-0 shadow-xs border border-white/15">
+            {getPropertyTypeLabel(property.propertyType)}
+          </div>
         </div>
       </div>
 

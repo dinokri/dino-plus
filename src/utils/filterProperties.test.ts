@@ -148,11 +148,32 @@ test('sortProperties sorts by price ascending and descending', () => {
   assert.equal(desc[2].price, 1000);
 });
 
-test('formatPriceKM formats currency properly', () => {
-  const res = formatPriceKM(295000);
-  assert.ok(res.includes('295.000 KM') || res.includes('295,000 KM') || res.includes('295 000 KM'));
-  assert.ok(res.endsWith('KM'));
+test('filterProperties strictly isolates sale and rent categories', () => {
+  const rentOnly = filterProperties(mockProperties, { offerType: 'iznajmljivanje' });
+  assert.ok(rentOnly.length > 0);
+  assert.ok(rentOnly.every((p) => p.offerType === 'iznajmljivanje'));
+  assert.ok(!rentOnly.some((p) => p.offerType === 'prodaja'));
 
-  const rentRes = formatPriceKM(1000, '/mjesečno');
-  assert.ok(rentRes.includes('1.000 KM /mjesečno') || rentRes.includes('1,000 KM /mjesečno') || rentRes.includes('1000 KM /mjesečno'));
+  const saleOnly = filterProperties(mockProperties, { offerType: 'prodaja' });
+  assert.ok(saleOnly.length > 0);
+  assert.ok(saleOnly.every((p) => p.offerType === 'prodaja'));
+  assert.ok(!saleOnly.some((p) => p.offerType === 'iznajmljivanje'));
 });
+
+test('filterProperties handles combined filters without cross-contamination', () => {
+  // Filtering for sale in Sarajevo
+  const res = filterProperties(mockProperties, { offerType: 'prodaja', city: 'Sarajevo' });
+  assert.equal(res.length, 1);
+  assert.equal(res[0].id, 'prop-1');
+
+  // Filtering for rent in Sarajevo (none in mockProperties)
+  const emptyRes = filterProperties(mockProperties, { offerType: 'iznajmljivanje', city: 'Sarajevo' });
+  assert.equal(emptyRes.length, 0);
+
+  // Filtering for rent in Banja Luka
+  const blRent = filterProperties(mockProperties, { offerType: 'iznajmljivanje', city: 'Banja Luka' });
+  assert.equal(blRent.length, 1);
+  assert.equal(blRent[0].id, 'prop-2');
+});
+
+

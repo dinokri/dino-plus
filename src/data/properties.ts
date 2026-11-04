@@ -1,9 +1,13 @@
 import { Property } from '../types/property';
+import heroImage from '../assets/images/hero_modern_residence_1793708233946.jpg';
+import apartmentImage from '../assets/images/apartment_interior_luxury_1793708235112.jpg';
+import sarajevoImage from '../assets/images/city_sarajevo_view_1793708235308.jpg';
+import villaImage from '../assets/images/luxury_villa_stone_1793708235614.jpg';
 
-export const HERO_IMAGE = '/src/assets/images/hero_modern_residence_1793708233946.jpg';
-export const APARTMENT_IMAGE = '/src/assets/images/apartment_interior_luxury_1793708235112.jpg';
-export const SARAJEVO_IMAGE = '/src/assets/images/city_sarajevo_view_1793708235308.jpg';
-export const VILLA_IMAGE = '/src/assets/images/luxury_villa_stone_1793708235614.jpg';
+export const HERO_IMAGE = heroImage;
+export const APARTMENT_IMAGE = apartmentImage;
+export const SARAJEVO_IMAGE = sarajevoImage;
+export const VILLA_IMAGE = villaImage;
 
 export const CITIES_LIST = [
   'Sarajevo',

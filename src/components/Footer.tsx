@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <button 
-                  onClick={() => onNavigate('nekretnine', { offerType: 'prodaja' })}
+                  onClick={() => onNavigate('prodaja')}
                   className="hover:text-white transition-colors cursor-pointer text-slate-400"
                 >
                   Nekretnine na prodaju
@@ -75,7 +75,7 @@ export const Footer: React.FC<FooterProps> = ({
               </li>
               <li>
                 <button 
-                  onClick={() => onNavigate('nekretnine', { offerType: 'iznajmljivanje' })}
+                  onClick={() => onNavigate('iznajmljivanje')}
                   className="hover:text-white transition-colors cursor-pointer text-slate-400"
                 >
                   Nekretnine za najam

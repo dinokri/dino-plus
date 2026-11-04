@@ -75,6 +75,9 @@ export const PopularLocationsSection: React.FC<PopularLocationsSectionProps> = (
               <img
                 src={city.image}
                 alt={city.name}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = SARAJEVO_IMAGE;
+                }}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
                 loading="lazy"
               />

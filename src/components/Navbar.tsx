@@ -12,7 +12,8 @@ import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
   currentView: string;
-  onNavigate: (view: string, params?: Record<string, string | number>) => void;
+  currentOfferType?: string;
+  onNavigate: (view: string, params?: Record<string, any>) => void;
   favoritesCount: number;
   onOpenPublishModal: () => void;
   onOpenAuthModal: (mode: 'login' | 'register') => void;
@@ -20,6 +21,7 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentView,
+  currentOfferType = 'sve',
   onNavigate,
   favoritesCount,
   onOpenPublishModal,
@@ -30,20 +32,37 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { id: 'pocetna', label: 'Početna' },
     { id: 'nekretnine', label: 'Nekretnine' },
-    { id: 'prodaja', label: 'Prodaja', filter: { offerType: 'prodaja' } },
-    { id: 'iznajmljivanje', label: 'Iznajmljivanje', filter: { offerType: 'iznajmljivanje' } },
+    { id: 'prodaja', label: 'Prodaja' },
+    { id: 'iznajmljivanje', label: 'Iznajmljivanje' },
     { id: 'kategorije', label: 'Kategorije' },
     { id: 'o-nama', label: 'O nama' },
     { id: 'kontakt', label: 'Kontakt' },
   ];
 
-  const handleLinkClick = (link: typeof navLinks[0]) => {
+  const handleLinkClick = (linkId: string) => {
     setMobileMenuOpen(false);
-    if (link.filter) {
-      onNavigate('nekretnine', link.filter);
+    if (linkId === 'prodaja') {
+      onNavigate('prodaja');
+    } else if (linkId === 'iznajmljivanje') {
+      onNavigate('iznajmljivanje');
+    } else if (linkId === 'nekretnine') {
+      onNavigate('nekretnine');
     } else {
-      onNavigate(link.id);
+      onNavigate(linkId);
     }
+  };
+
+  const isLinkActive = (linkId: string) => {
+    if (linkId === 'prodaja') {
+      return (currentView === 'nekretnine' || currentView === 'prodaja') && currentOfferType === 'prodaja';
+    }
+    if (linkId === 'iznajmljivanje') {
+      return (currentView === 'nekretnine' || currentView === 'iznajmljivanje') && currentOfferType === 'iznajmljivanje';
+    }
+    if (linkId === 'nekretnine') {
+      return (currentView === 'nekretnine') && (currentOfferType === 'sve' || !currentOfferType);
+    }
+    return currentView === linkId;
   };
 
   return (
@@ -85,11 +104,11 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Desktop Navigation Links with Magnetic Active Indicator */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-semibold text-[#343B46]" aria-label="Glavna navigacija">
             {navLinks.map((link) => {
-              const isActive = currentView === link.id;
+              const isActive = isLinkActive(link.id);
               return (
                 <button
                   key={link.id}
-                  onClick={() => handleLinkClick(link)}
+                  onClick={() => handleLinkClick(link.id)}
                   className={`relative py-2 whitespace-nowrap transition-colors duration-150 cursor-pointer ${
                     isActive 
                       ? 'text-[#14243B] font-bold' 
@@ -209,19 +228,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="lg:hidden bg-white border-t border-slate-200 px-4 pt-3 pb-6 shadow-xl overflow-hidden"
           >
             <div className="flex flex-col space-y-2 mb-4">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  onClick={() => handleLinkClick(link)}
-                  className={`text-left px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
-                    currentView === link.id
-                      ? 'bg-[#14243B] text-white'
-                      : 'text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  {link.label}
-                </button>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = isLinkActive(link.id);
+                return (
+                  <button
+                    key={link.id}
+                    onClick={() => handleLinkClick(link.id)}
+                    className={`text-left px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer ${
+                      isActive
+                        ? 'bg-[#14243B] text-white'
+                        : 'text-slate-700 hover:bg-slate-100'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="pt-3 border-t border-slate-200 flex flex-col gap-2.5">
